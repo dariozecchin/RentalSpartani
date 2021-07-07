@@ -35,7 +35,7 @@ La pagina profilo è diversa per un amministratore e un cliente. Il primo potrà
 
 Modalità di noleggio: Homepage:
 
-    Per scegliere il guerriero da noleggiare si può scorrere tra tutti i guerrieri e sceglierne uno oppure selezionare l'abilità richiesta e il periodo in cui lo si cerca e scegliere tra i risultati. Una volta cliccato sul guerriero scelto si verrà indirizzati alla pagina del singolo guerriero. Pagina del guerriero:
+   Per scegliere il guerriero da noleggiare si può scorrere tra tutti i guerrieri e sceglierne uno oppure selezionare l'abilità richiesta e il periodo in cui lo si cerca e scegliere tra i risultati. Una volta cliccato sul guerriero scelto si verrà indirizzati alla pagina del singolo guerriero. Pagina del guerriero:
     nella pagina del guerriero, il cliente può vedere nel dettaglio tutte le caratteristiche del guerriero e se convinto della scelta può direttamente prenotare il guerriero (a patto che abbia eseguito il login). Per prenotare vi è solamente da definire una data controllando che non sia già occupata (qualora lo fosse e si provi a prenotare si verrà reindirizzati in una pagina di errore che spiegherà il problema), scegliere se si vuole sottoscrivere un'assicurazione e cliccare sul bottone della prenotazione. Pagina del profilo:
     il cliente potrà controllare e cambiare la data delle prenotazioni attive e future (sempre se il guerriero è disponibile nel nuovo periodo selezionato), controllare le fatture delle prenotazioni terminate e scrivere recensioni su guerrieri che ha noleggiato.
 
