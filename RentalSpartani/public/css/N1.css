@@ -1,0 +1,156 @@
+/**{
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+body{
+    background-color: lightgray;
+}*/
+
+.links{
+ 
+  color: black;
+}
+
+
+.links:hover{
+  border-bottom: 1px solid;
+}
+.box h1{
+    color: black;
+    font-size: 36px;
+
+    margin-bottom: 40px;
+}
+
+
+
+
+.popup{
+    /* usare rgba per opacità (USARE QUESTO MODO) oppure fare in questo modo colore + opacity */
+  /*  background: rgb(0, 0, 0, 0.6);*/
+    width: 100%;
+    height: 100%;
+    position: relative;
+    bottom:70%;
+
+    /* opacity: 0.6; */
+    /* 3 comandi uniti */
+    /* display: flex; */
+
+    /* Per startare deve essere none, perchè cambia nel momento che clicco il button */
+    display: none;
+    justify-content: center;
+
+    text-align: center;
+}
+
+@media(max-width: 576px) {
+
+
+.popup{
+  bottom:20%;
+}
+
+
+
+
+    }
+
+.contenutoPop{
+
+    background-color: #7190A2;
+    padding: 20px;
+    border-radius: 30px;
+    z-index: 10;
+    position: absolute;
+}
+
+#exampleInputEmail1 {
+    margin-top: 20px;
+}
+#exampleInputPassword1 {
+    margin-top: 20px;
+}
+
+#btnLogin{
+  background-color: #5E7786 !important;
+}
+
+/* Queste sono le immagini */
+.close{
+  /*  position: absolute;
+    top: -15px;
+    right: -15px;*/
+    position: absolute;
+    right: 14px;
+    cursor: pointer;
+}
+
+.rightCross{
+  align:right;
+}
+
+#imgUser{
+    /* border: 5px solid black; */
+    border-radius: 50% 50%;
+    width: 50px;
+    height: 50px;
+}
+
+
+
+
+.popup{
+    /* usare rgba per opacità (USARE QUESTO MODO) oppure fare in questo modo colore + opacity */
+  /*  background: rgb(0, 0, 0, 0.6);*/
+    width: 100%;
+    height: 100%;
+    position: relative;
+    bottom:50%;
+
+    /* opacity: 0.6; */
+    /* 3 comandi uniti */
+    /* display: flex; */
+
+    /* Per startare deve essere none, perchè cambia nel momento che clicco il button */
+    display: none;
+    justify-content: center;
+
+    text-align: center;
+}
+.popup2{
+    /* usare rgba per opacità (USARE QUESTO MODO) oppure fare in questo modo colore + opacity */
+  /*  background: rgb(0, 0, 0, 0.6);*/
+    width: 100%;
+    height: 100%;
+    position: relative;
+    bottom:40%;
+
+    /* opacity: 0.6; */
+    /* 3 comandi uniti */
+    /* display: flex; */
+
+    /* Per startare deve essere none, perchè cambia nel momento che clicco il button */
+    display: none;
+    justify-content: center;
+
+    text-align: center;
+}
+
+.contenutoPop2{
+
+    background-color: #7190A2;
+    padding: 20px;
+    border-radius: 30px;
+    z-index: 10;
+    position: absolute;
+
+}
+
+
+.titlePop{
+  padding:0.5rem 0.5rem ;
+  margin: 10px;
+}
