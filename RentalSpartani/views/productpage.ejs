@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide guerrieri orizzontali</title>
+
+    <link rel="stylesheet" type="text/css"  href="/css/styleUI.css">
+    <link rel="stylesheet" type="text/css"  href="/css/productStyle.css">
+    <link rel="stylesheet" type="text/css"  href="/css/N1.css">
+    <link rel="stylesheet" href="/css/boot/bootstrap.css">
+    <script src = "/javascripts/N1.js" language = "javascript"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src = "https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/3.0.5/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css"  href="/css/footer.css">
+    <script src="/javascripts/uidev.js"></script>
+    
+</head>
+<body onload='caricaPagina()'>
+  <div class="container-fluid" id="conteinerMenu">
+    <nav class="navbar navbar-expand-lg navbar-light transparent">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:3000/">RentalSpartani.com</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-trigger="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="offcanvas-header mt-3">
+            <button type="button" class="btn-close float-left"> <i class="fas fa-times"></i></button>
+            <h5 class="text-white py-2" style="text-align:left">Menu</h5>
+          </div>
+          <ul class="navbar-nav">
+            <% if(sessionVar.loggedin){ %>
+              <li class="nav-item">
+                <a class="nav-link" <%if(sessionVar.accountType=="Admin"){ %> href="/users/<%=sessionVar.username%>" <% }else{%>  href="/users/<%=sessionVar.username%>"  <%}%>  >Profilo</a>
+              </li>
+              <% } %>
+              <li class="nav-item">
+                <a class="nav-link" href="/statistiche/">Statistiche
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../contatti"><span class="indicator"><span class="material-icons" id="matIcon">call
+                </span>Contatti</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="login"<% if(!sessionVar.loggedin){ %> onclick = "controllo()" <% }else{%>   onclick = "logOut2()" <%   } %>   ><span class="indicator" id="indicatorLogin"><i class="fas fa-user-circle"></i> <span id="accedi_id" class="casL">
+                  <% if(sessionVar.loggedin){ %>
+                    <%=   sessionVar.username; %>
+                    <% }else { %>
+                      <span class="casL" id="accedi_check">Accedi</span>
+                      <% } %>
+                    </span></span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <div class="popup">
+          <!--- Pop-up code -->
+          <div class = "contenutoPop">
+            <form action="login" method="POST" id="formLogin">
+              <div class="rightCross">
+                <img src = "/img/Croce.png" alt = "croceRossa" width = "20px" height = "20px" class = "close" onclick = "chiusuraLoginNoHome()"></div>
+                <img src = "/img/User.png" alt = "ImmagineUser" id = "imgUser"><input type="username" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="usernameHelp" placeholder="Enter username" required>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" required>
+                <div id="errorLogin" class="form-text text-muted"></div>
+                <div class="alert alert-danger" role="alert" id="errorLogin" style="display: none; "></div>
+                <br>
+                <button type="submit" class="btn" id = "btnLogin">LOGIN</button>
+                <a href="../register/register"><small>Registrati</small> </a>
+              </form>
+            </div>
+          </div>
+          <div class="popup2" id="pop2">
+            <!--- Pop-up code -->
+            <div class = "contenutoPop2">
+              <form action="logout" method="POST" id="formLogOut">
+                <div class="titlePop">Sei sicuro di voler effetuare il log-out? </div>
+                <button type="submit" class="btn" id = "btnLogOut">Certo</button>
+                <button type="button" class="btn" onclick = "closePopUpNoHome()"> Indietro </button>
+              </form>
+            </div>
+          </div>
+          <%
+          if(rows1.length!=0){
+            var i=1;
+            rows1.forEach(function(result1){
+              %>
+              <section class="product">
+                <div class="container mt-5" id="productSection">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="photoDiv p-2 ml-5">
+                        <img src ="/images/spartan.jpg"  class="img-fluid">
+                      </div>
+
+  </div>
+  <div class="col-lg-6 ml-3">
+    <div class="title">
+      <h2 style="font-family: 'Heebo', sans-serif;"> <%= result1.Nome %> </h2>
+    </div>
+    <div class="warriorPrice">
+      <!-- ci dovra' essere l'attributo preso in maniera dinamica -->
+      <p>  <%= result1.Prezzo %> € </p>
+    </div>
+    <div class="rating" action="review" onclick="controlloReview()">
+      <% if (result1.MediaRecensione==0) { %>
+        <p>Nessuna recensione</p>
+        <% } else if (result1.MediaRecensione==1) { %>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star-half-o"></i>
+        <% }else if (result1.MediaRecensione==1.5) { %>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star-half-o"></i>
+        <% } else if (result1.MediaRecensione==2) { %>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+        <% } else if (result1.MediaRecensione==2.5) { %>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star-half-o"></i>
+        <% } else if (result1.MediaRecensione==3) { %>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+        <% } else if (result1.MediaRecensione==3.5) { %>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star-half-o"></i>
+        <% } else if (result1.MediaRecensione==4) { %>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+        <% } else if (result1.MediaRecensione==4.5) { %>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star-half-o"></i>
+        <% } else { %>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+          <i class = "fa fa-star"></i>
+        <% } %>
+        <small class="form-text text-muted">Visualizza le <%= rows3.length %> recensioni</small>
+      </div>
+      <div class="warriorFeatures p-2 mt-3">
+        <p>
+          <%= result1.Descrizione %>
+        </p>
+        <p>
+            Abilità: <%= result1.Abilità %>
+        </p>
+        <p>
+          Year: <%= result1.AnnoNascita %>
+        </p>
+        <p>
+          Height: <%= result1.Altezza %>
+        </p>
+        <p>
+            Weight: <%= result1.Peso %>
+        </p>
+        <p>
+            Condition: <%= result1.Stato %>
+        </p>
+        <p>
+            Fights: <%= result1.NrBattaglie %>
+        </p>
+      </div>
+      <form id="form1" action="submit-form" method="post">
+        <div id = "nome">
+          <%
+          rows1.forEach(function(result1){
+            %>
+            <div class = "nomenome">
+              <input type = "hidden" id = "nome" name="nome" value="<%= result1.Nome %>">
+            </div>
+            <% }); %>
+            <!-- ########################################################################################################################################## -->
+            <div class="datadiv p-1">
+              <input type = "text" name="daterange1" id = "picker" class = "form-control">
+              <p></p>
+            </div>
+            <!-- ########################################################################################################################################## -->
+            <% if(rows4.length!=0){
+              %>
+              <div class="">
+                <ul>
+                  <span><b>Periodi non disponibili:</b></span>
+                  <%
+                  rows4.forEach(function(result4){
+                    var d = String(result4.DataInizio);
+                    var dt = d.substring(4,15);
+                    var d2 = String(result4.DataFine);
+                    var dt2 = d2.substring(4,15);
+                    %>
+                    <li><%=dt %> - <%= dt2 %></li>
+                    <% }); %>
+                  </ul>
+                </div>
+                <%  } %>
+                <div class = "contenitoreAssicurazione mt-2 p-1">
+                  Vuoi avere l'assicurazione sul soldato che stai noleggiando?
+                  <input type = "checkbox" id = "TFassicurazione" name="insurance" value="1" checked="true">
+                </div>
+                 <%
+                 rows5.forEach(function(result5){
+                   var nrPre = result5.NrPrenotazioni;
+                   if (nrPre%10==0 && nrPre!=0) {
+                     %>
+                     <div class="alert alert-info" role="alert">
+                       <p>Hai già fatto <%= result5.NrPrenotazioni %> prenotazioni! Per ringraziarti della tua fedeltà la prossima prenotazione costerà il 10% in meno!</p>
+                      </div>
+                      <%
+                    }
+                    %>
+                    <div class="">
+                      <input type="hidden" name="nrPren" value="<%= result5.NrPrenotazioni %>">
+                    </div>
+                    <% }); %>
+                    <div class="buttonDiv mt-2 p-1">
+                      <button type = "submit" form="form1" class = "btn" id="findBut">
+                        <i class="fa fa-shopping-cart"></i>
+                        Prenota
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+          <%  i++; }) %>
+          <% } else{ %>
+            <p>Errore di caricamento del prodotto</p>
+            <% } %>
+            <div class = "popupReview" style="display: none; ">
+              <div class = "container mx-auto p-3">
+                <div class="row">
+                  <div class="col-lg-8">
+                    <i class="fas fa-angle-left fa-lg" onclick="backHome()"></i>  <h1  class="mb-4"> Recensioni </h1>
+                    <% rows3.forEach(function(result3){ %>
+                      <div class = "testo p-2 m-2">
+                        <p><%= result3.Testo %></p>
+                        <% for(var i = 0 ; i < result3.Stelle ; i ++ ) { %>
+                          <i class = "fa fa-star"></i>
+                          <% } %>
+                          <!-- <i class = "fa fa-star-half-o"></i> -->
+                          <p id = "firma"><%= result3.Utente %> <%= result3.DataR %></p>
+                        </div>
+                        <% }); %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Footer -->
+                <footer class=" text-center ">
+                  <!-- Grid container -->
+                  <div class="container p-4" id="footerDiv">
+                    <!-- Section: Social media -->
+                    <section class="mb-4">
+                      <!-- Facebook -->
+                      <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
+                      <!-- Twitter -->
+                      <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee" href="#!" role="button"><i class="fab fa-twitter"></i></a>
+                      <!-- Google -->
+                       <a class="btn btn-primary btn-floating m-1" style="background-color: #dd4b39" href="#!" role="button"><i class="fab fa-google"></i></a>
+                       <!-- Instagram -->
+                       <a class="btn btn-primary btn-floating m-1" style="background-color: #ac2bac" href="#!" role="button"><i class="fab fa-instagram"></i></a>
+                       <!-- Linkedin -->
+                       <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+                       <!-- Github -->
+                       <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="#!" role="button"><i class="fab fa-github"></i></a>
+                      </section>
+                      <!-- Section: Social media -->
+                      <!-- Section: Text -->
+                      <section class="mb-4">
+                        <p>L'assicurazione costa il 10% del totale e permette di evitare sanzioni qualora il guerriero sia restituito con dei danni fisici.</p>
+                        <p>Nel caso in cui il guerrero sia liberato con dei giorni di ritardo rispetto alla prenotazione verranno addebitati i costi dei giorni aggiuntivi e un 30% al giorno.</p>
+                      </section>
+                    </div>
+                    <div class="text-center p-3" style="background-color:#74B3CE" id="lastFooter">
+                      © 2020 Copyright:
+                      <a class="text-dark" href="http://localhost:3000/">RentalSpartani.com</a>
+                    </div>
+                  </footer>
+                </body>
+
+
+<script>
+      $('#picker').daterangepicker({
+      opens: 'left',
+      locale: {
+          format: "DD/MM/YYYY"
+      }
+
+    }, function(start, end, label){
+      $('#start').text(start.format('DD-MM-YYYY'))
+      $('#end').text(end.format('DD-MM-YYYY'))
+    });
+
+    function controlloReview(){
+        document.querySelector(".popupReview").style.display = "flex";
+        document.querySelector(".row").style.display = "none";
+
+    }
+    function backHome(){
+        document.querySelector(".popupReview").style.display = "none";
+        document.querySelector(".row").style.display = "flex";
+ 
+    }
+
+      function caricaPagina(){
+      var bottone = document.getElementById('findBut');
+      bottone.disabled = true;
+    }
+
+    var dt = new Date();
+    var giorno = dt.getDate();
+    var mese = dt.getMonth() + 1;
+    var anno = dt.getFullYear();
+    var oggi = 0;
+
+      if(giorno < 10){
+        giorno = "0" + giorno;
+      }
+
+      if(mese < 10){
+        mese = "0" + mese;
+      }
+
+    var oggi = anno + "-" + mese + "-" + giorno;
+
+    // function per il calendario
+    var calendario = document.getElementById('picker');
+    var bottone = document.getElementById('findBut');
+    calendario.onchange = function(){
+      var valoreData = calendario.value
+      var dataIniziale = valoreData.substring(0,10);
+      var giorno = dataIniziale.substring(0,2);
+      var mese = dataIniziale.substring(3,5);
+      var anno = dataIniziale.substring(6,10);
+      var dataInizio = anno + "-" + mese + "-" + giorno;
+
+      var array = document.getElementsByClassName('casL');
+
+
+      if(array.length == 2){
+        if(dataInizio < oggi){
+          bottone.disabled = true;
+          alert("Mi dispiace ma non puoi prenotare perchè hai inserito una data minore della data odierna e non ti sei loggato");
+        } else {
+          bottone.disabled = true;
+          alert("Mi dispiace hai inserto la data giusta per prenotare, ma non ti sei loggato");
+        }
+      }
+
+      if(array.length == 1){
+        if(dataInizio < oggi){
+          bottone.disabled = true;
+          alert("Mi dispiace ti sei loggato, ma hai inserito la data sbagliata, inserire la data di inizio maggiore della data odiera");
+        } else {
+          bottone.disabled = false;
+        }
+      }
+    }
+  </script>
+  </html>

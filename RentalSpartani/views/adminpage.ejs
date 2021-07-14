@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdminPage</title>
+  <!--- css FIle  -->
+  <link rel="stylesheet" type="text/css"  href="/css/styleUI.css">
+  <!--- css FIle for login -->
+  <link href = "/css/N1.css" rel = "stylesheet" text = "text/css">
+  <!-- bootstrap  css --->
+  <link rel="stylesheet" href="/css/boot/bootstrap.css">
+  <!-- script LOGIN -->
+  <script src = "/javascripts/N1.js" language = "javascript"></script>
+  <!--- ICONS GOOGLE -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--- Icons fontAwesome --->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <!--- JS FIle -->
+  <script src="/javascripts/uidev.js"></script>
+  <script src="/javascripts/js/bootstrap.js"> </script>
+  <script src="/javascripts/adminFile.js"> </script>
+</head>
+<body onload="funzione30()">
+  <!----------------------------------------------------------------------------------------------------------------->
+  <!-------------------------------------NAV BAR------------------------------------------------->
+  <!----------------------------------------------------------------------------------------------------------------->
+  <div class="container-fluid" id="conteinerMenu">
+    <nav class="navbar navbar-expand-lg navbar-light transparent">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:3000/">RentalSpartani.com</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-trigger="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="offcanvas-header mt-3">
+            <button type="button" class="btn-close float-left"> <i class="fas fa-times"></i></button>
+            <h5 class="text-white py-2" style="text-align:left">Menu</h5>
+          </div>
+          <ul class="navbar-nav">
+            <% if(sessionVar.loggedin){ %>
+              <li class="nav-item">
+                <a class="nav-link" <%if(sessionVar.accountType=="Admin"){ %> href="/users/<%=sessionVar.username%>" <% }else{%>  href="/users/<%=sessionVar.username%>"  <%}%>  >Profilo</a>
+              </li>
+              <% } %>
+              <li class="nav-item">
+                <a class="nav-link" href="http://localhost:3000/statistiche/">Statistiche</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../contatti"><span class="indicator"><span class="material-icons" id="matIcon">call</span>Contatti</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="login"<% if(!sessionVar.loggedin){ %> onclick = "controlloAdmin()" <% }else{%>   onclick = "logOutAdmin2()" <%   } %>   ><span class="indicator" id="indicatorLogin"><i class="fas fa-user-circle"></i> <span class="textLogin">
+                  <% if(sessionVar.loggedin){ %>
+                    <%=   sessionVar.username; %>
+                    <% }else { %>
+                      Accedi <% } %>
+                    </span></span></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <!--- Qua finisce  la search -->
+        <!--- Pop-up  code -->
+        <div class="popup">
+          <!--- Pop-up  code -->
+          <div class = "contenutoPop">
+            <form action="login" method="POST" id="formLogin">
+              <div class="rightCross">
+                <img src = "/img/Croce.png" alt = "croceRossa" width = "20px" height = "20px" class = "close" onclick = "controllo1()">
+              </div>
+              <img src = "/img/User.png" alt = "ImmagineUser" id = "imgUser">
+              <input type="username" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="usernameHelp" placeholder="Enter username" required>
+              <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" required>
+              <div id="errorLogin" class="form-text text-muted"></div>
+              <div class="alert alert-danger" role="alert" id="errorLogin"  style="display: none; "></div>
+              <br>
+              <button type="submit" class="btn" id = "btnLogin">LOGIN</button>
+            </form>
+          </div>
+        </div>
+        <div class="popup2" id="pop2">
+          <!--- Pop-up  code -->
+          <div class = "contenutoPop2">
+            <form action="logout" method="POST" id="formLogOut">
+              <div class="titlePop">Sei sicuro di voler effetuare il log-out? </div>
+              <button type="submit" class="btn" id = "btnLogOut">Certo</button>
+              <button type="button" class="btn" onclick = "closePopUpAdmin2()"> Indietro </button>
+             </form>
+            </div>
+          </div>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-4">
+                <ul class="nav flex-column p-3 my-2">
+                  <li class="nav-item liE" id="menu">
+                    <a class="nav-link" href="#newW_form" id="menuAm">Inserisci un nuovo guerriero</a>
+                  </li>
+                  <li class="nav-item liE">
+                    <a class="nav-link" href="#form_NU" id="menuAm4">Inserisci un nuovo utente</a>
+                  </li>
+                  <li class="nav-item liE">
+                    <a class="nav-link" href="#guerrieri" id="menuAm2">Modifica/Rimuovi un guerriero</a>
+                  </li>
+                  <li class="nav-item liE">
+                    <a class="nav-link" href="#prenInCorso" id="menuAm2">Noleggi Attivi</a>
+                  </li>
+                  <li class="nav-item liE">
+                    <a class="nav-link" href="#noleggifuturi" id="menuAm2">Noleggi futuri</a>
+                  </li>
+                  <li class="nav-item liE">
+                    <a class="nav-link" href="#storiconoleggi" id="menuAm2">Storico Noleggi</a>
+                  </li>
+                  <li class="nav-item liE">
+                    <a class="nav-link" href="#tableUtenti" id="menuAm2">Tabella utenti</a>
+                  </li>
+                </ul>
+              </div>
+              <!----------------------------------------------------------------------------------------------------------------->
+              <!-------------------------------------NUOVO GUERRIERO------------------------------------------------->
+              <!----------------------------------------------------------------------------------------------------------------->
+              <div class="col-lg-6">
+                <div class="newWarrior p-4 mt-2">
+                  <form action="newWarrior" id="newW_form" method="post">
+                    <legend> Inserisci un nuovo guerriero: </legend>
+                    <div class="input-group m-3 p-1">
+                      <input type="text" class="form-control" name="input_namew" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" required>
+                    </div>
+                    <div class="input-group m-3 p-1">
+                      <span class="input-group-text">Altezza e Peso:</span>
+                      <input type="number" aria-label="Altezza" name="input_heightw" min="60" max="220" class="form-control" placeholder="Altezza" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">cm</span>
+                      </div>
+                      <input type="number" aria-label="Peso" name="input_weightw" min="40" max="200" class="form-control" placeholder="Peso" required>
+                      <div class="input-group-append">
+                        <span class="input-group-text">kg</span>
+                      </div>
+                    </div>
+                     <div class="input-group m-3 p-1">
+                       <input type="number" placeholder="Anno di nascita" name="input_yearw" min="300" max="500" class="form-control" required>
+                       <div class="input-group-append">
+                         <span class="input-group-text">a.C.</span>
+                        </div>
+                        <script>
+                        document.querySelector("input[type=number]")
+                        .oninput = e => console.log(new Date(e.target.valueAsNumber, 0, 1))
+                        </script>
+                        </div>
+                        <div class="input-group m-3 p-1">
+                          <select class="form-select" id="inputGroupSelect01" name="input_statow" required>
+                            <option disabled selected value="">Stato fisico...</option>
+                            <option value="Ottimo">Ottimo</option>
+                            <option value="Infortunato">Infortunato</option>
+                            <option value="Menomato">Menomato</option>
+                            <option value="Deceduto">Deceduto</option>
+                          </select>
+                        </div>
+                        <div class="input-group m-3 p-1">
+                          <select class="form-select" id="inputGroupSelect02" name="input_abilitaw" required>
+                            <option disabled selected value="">Abilità...</option>
+                            <option value="Grosso">Grosso</option>
+                            <option value="Distanza">Distanza</option>
+                            <option value="Lancia">Lancia</option>
+                            <option value="Corpo a corpo">Corpo a corpo </option>
+                          </select>
+                        </div>
+                        <div class="input-group m-3 p-1">
+                          <input type="text" class="form-control" name="input_descrw" placeholder="Descrizione" aria-label="Descrizione" aria-describedby="basic-addon1" required>
+                        </div>
+                        <div class="input-group m-3 p-1">
+                          <label class="input-group-text" for="inputGroupFile01">Carica Foto</label>
+                          <input type="file" accept="image/png" name="input_photow" class="form-control" id="inputGroupFile01" required>
+                        </div>
+                        <div class="input-group m-3 p-1">
+                          <button type="submit" form="newW_form" class="btn btn-primary">Inserisci</button>
+                        </div>
+                      </form>
+                    </div>
+                    <!----------------------------------------------------------------------------------------------------------------->
+                    <!-------------------------------------NUOVO UTENTE------------------------------------------------->
+                    <!----------------------------------------------------------------------------------------------------------------->
+                    <div class="newUser p-4 mt-2">
+                      <form class="form_newUser" id="form_NU" action="newUser" method="post">
+                        <legend> Inserisci un nuovo Utente: </legend>
+                        <div class="input-group m-3 p-1">
+                          <input type="text" class="form-control" placeholder="Username" aria-label="Userame" aria-describedby="basic-addon1" name="username" required>
+                        </div>
+                        <div class="input-group m-3 p-1">
+                          <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" name="name" required>
+                        </div>
+                        <div class="input-group m-3 p-1">
+                          <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" name="password" required>
+                        </div>
+                        <div class="input-group m-3 p-1">
+                          <input type="text" class="form-control" placeholder="City" aria-label="City" aria-describedby="basic-addon1" name="city" required>
+                        </div>
+                        <div class="input-group m-3 p-1">
+                          <select class="form-select" id="inputGroupSelect03" name="typeUtent" required>
+                            <option disabled selected value="">Tipo Account...</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Customer">Customer</option>
+                          </select>
+                        </div>
+                        <div class="input-group m-3 p-1">
+                          <button type="submit" class="btn btn-primary" form = "form_NU">Inserisci</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="col-lg-2">
+                  </div>
+                </div>
+              </div>
+              <!----------------------------------------------------------------------------------------------------------------->
+              <!-------------------------------------TABELLA GUERRIERI------------------------------------------------->
+              <!----------------------------------------------------------------------------------------------------------------->
+              <div class="container-fluid py-3 px-2 " id="guerrieri">
+                <div class="table-responsive">
+                  <h2 class="titleTable">TABELLA GUERRIERI</h2> <input type="text" id="myInputGuerrieri" onkeyup="myFunction1()" placeholder="Cerca per nome...">
+                  <table class="table" id ="tableGuerrieri">
+                    <thead>
+                      <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Anno</th>
+                        <th scope="col">Altezza</th>
+                        <th scope="col">Peso</th>
+                        <th scope="col">Stato</th>
+                        <th scope="col">Descrizione</th>
+                        <th scope="col">Nr Battaglie</th>
+                        <th scope="col">Abilità</th>
+                        <th scope="col">Prezzo</th>
+                        <th scope="col">Valutazioni</th>
+                        <th scope="col">modifyColumn</th>
+                        <th scope="col">removeColumn</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <form action="edit_warriors" id="form_editW" method="post">
+                        <%
+                        if(rows4.length!=0){
+                          var i=0;
+                          rows4.forEach(function(result4){
+                            %>
+                            <tr>
+                              <td>
+                                <%= result4.Nome%>
+                              </td>
+                              <td>
+                                <input type="number" name="annomod" placeholder="<%= result4.AnnoNascita %>" min="300" max="500">
+                              </td>
+                              <td>
+                                  <input type="number" name="altezzamod" placeholder="<%= result4.Altezza %>" min="50" max="220">
+                              </td>
+                              <td>
+                                <input type="number" name="pesomod" placeholder="<%= result4.Peso %>" min="50" max="220">
+                              </td>
+                              <td>
+                                <select name="statomod">
+                                  <option disabled selected><%= result4.Stato %></option>
+                                  <option value="Ottimo">Ottimo</option>
+                                  <option value="Infortunato">Infortunato</option>
+                                  <option value="Deceduto">Deceduto</option>
+                                  <option value="Menomato">Menomato</option>
+                                  <option value="Non disponibile">Non dispobile</option>
+                                </select>
+                              </td>
+                              <td>
+                                <input type="text" name="descrmod" placeholder="<%= result4.Descrizione %>">
+                              </td>
+                              <td>
+                                <%= result4.NrBattaglie %>
+                              </td>
+                              <td>
+                                <select name="abimod">
+                                  <option disabled selected><%= result4.Abilità %></option>
+                                  <option value="Grosso">Grosso</option>
+                                  <option value="Distanza">Distanza</option>
+                                  <option value="Corpo a corpo">Corpo a corpo</option>
+                                  <option value="Lancia">Lancia</option>
+                                </select>
+                              </td>
+                              <td>
+                                <input type="number" name="prezzomod" placeholder="<%= result4.Prezzo %>" min="1" max="999">
+                              </td>
+                              <td>
+                                <%= result4.MediaRecensione %>
+                              </td>
+                              <td>
+                                <input type="hidden" name="editnome" value="<%= result4.Nome %>">
+                                <button type="submit" form="form_editW" name="editidw" class="btn btn-secondary" value="<%= i %>">Modifica</button>
+                              </td>
+                              <td>
+                                <button type="submit" form="form_editW" name="deleteidw" class="btn btn-secondary" value="<%= i %>">Elimina</button>
+                              </td>
+                            </tr>
+                            <%
+                            i++; })
+                          } else{ %>
+                            <p>Non sono presenti guerrieri all'interno del nostro sito</p>
+                            <% } %>
+                          </form>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <!----------------------------------------------------------------------------------------------------------------->
+                  <!-------------------------------------TABELLA PRENOTAZIONI IN CORSO------------------------------------------------->
+                  <!----------------------------------------------------------------------------------------------------------------->
+                  <div class="container-fluid py-3" id="prenInCorso">
+                    <section id="noleggiattivi">
+                      <h2 class="titleTable">NOLEGGI ATTIVI</h2> <input type="text" id="myInputNoleggiAttivi" onkeyup="myFunction2()" placeholder="Cerca per nome..."> </div>
+                      <div class="table-responsive">
+                        <table class="table" id="tableNoleggiAttivi">
+                          <thead>
+                            <tr>
+                              <th scope="col">NomeGuerriero</th>
+                              <th scope="col">Abilità</th>
+                              <th scope="col">Stato</th>
+                              <th scope="col">Assicurazione</th>
+                              <th scope="col">Prezzo</th>
+                              <th scope="col">DataInizio</th>
+                              <th scope="col">DataFine</th>
+                              <th scope="col">Fine prestito</th>
+                              <th scope="col">Cambia periodo</th>
+                              <th scope="col">Elimina</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <form class="form_estendi" id="form_NA" action="modifica" method="post">
+                              <%
+                              var i = 0;
+                              if(rows6.length!=0){
+                              rows6.forEach(function(result6){
+                                var dI = String(result6.DataInizio);
+                                var dateI = dI.substring(3,15);
+                                var dF = String(result6.DataFine);
+                                var dateF = dF.substring(3,15);
+
+                                var insu = result6.Insurance;
+                                if (insu=1) {
+                                  insu="Sì";
+                                } else {
+                                  insu="No";
+                                }
+                              %>
+                              <tr>
+                                <td><%= result6.NomeGuerriero%>
+                                  <input type = "hidden" name="modificaid" value="<%= result6.Codice %>">
+                                  <input type = "hidden" name="modificawarrior" value="<%= result6.NomeGuerriero %>">
+                                </td>
+                                <td><%= result6.Abilità %></td>
+                                <td name="stateWar"><%= result6.Stato %></td>
+                                <td><%= insu %></td>
+                                <td><%= result6.Prezzo %></td>
+                                <td><%= dateI %></td>
+                                <td><%= dateF%></td>
+                                <td>
+                                  <button type="button"  class="btn btn-secondary" data-bs-toggle="modal" value="<%= i+1 %>"  data-bs-target="#staticBackdrop" onclick="changeSelect(this.value)" name="buttonF">Fine prestito</button>
+                                </td>
+                                <td>
+                                  <!-- <input type = "text" name = "daterangeM" value = "07/06/2021 - 10/06/2021" id = "oggetto"/> -->
+                                  <input type="date" class="data_minore" name="dataidI">
+                                  <input type="date" class="c1" name="dataidF">
+                                  <button type="submit" form="form_NA" class="btn btn-secondary" value="<%= i %>" name="btnid2">Modifica</button>
+                                </td>
+                                <td>
+                                  <button type="submit" form="form_NA" class="btn btn-secondary" value="<%= i %>" name="btnid3">Elimina</button>
+                                </td>
+                              </tr>
+                              <%
+                              i++; })
+                            } else{ %>
+                              <p>Non sono presenti noleggi attivi al momento</p>
+                              <% } %>
+                              <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="staticBackdropLabel">Riepilogo Guerriero</h5>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                      Quali sono le condizioni del guerriero?
+                                      <select class="form-select form-select-sm" aria-label=".form-select-sm example" id="selectCond" name= "selectCondition">
+                                        <option selected value="false">Non ha cambiato stato</option>
+                                      </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                                      <button type="submit" form="form_NA" class="btn btn-primary"  value="<%= i %>" name="btnid4">Conferma</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                  <!----------------------------------------------------------------------------------------------------------------->
+                  <!-------------------------------------TABELLA PRENOTAZIONI FUTURE------------------------------------------------->
+                  <!----------------------------------------------------------------------------------------------------------------->
+                  <div class="container-fluid py-3">
+                    <section id="noleggifuturi">
+                      <h2 class="titleTable">NOLEGGI FUTURI</h2> <input type="text" id="myInputNoleggiFuturi" onkeyup="myFunction3()" placeholder="Cerca per nome..."> </div>
+                      <div class="table-responsive">
+                        <table class="table" id="tableNoleggiFuturi">
+                          <thead>
+                            <tr>
+                              <th scope="col">NomeGuerriero</th>
+                              <th scope="col">Abilità</th>
+                              <th scope="col">Stato</th>
+                              <th scope="col">Assicurazione</th>
+                              <th scope="col">Prezzo</th>
+                              <th scope="col">DataInizio</th>
+                              <th scope="col">DataFine</th>
+                              <th scope="col">Cambia periodo</th>
+                              <th scope="col">Remove</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <form class="form_modifica" id="form_NF" action="modifica" method="post">
+                              <%
+                              var i=0;
+                              if(rows7.length!=0){
+                              rows7.forEach(function(result7){
+                                var dI = String(result7.DataInizio);
+                                var dateI = dI.substring(3,15);
+                                var dF = String(result7.DataFine);
+                                var dateF = dF.substring(3,15);
+                                var insu = result7.Insurance;
+                                if (insu=1) {
+                                  insu="Sì";
+                                } else {
+                                  insu="No";
+                                }
+                                %>
+                                <tr>
+                                  <td>
+                                    <%= result7.NomeGuerriero%>
+                                    <input type = "hidden" name="modificaid" value="<%= result7.Codice %>">
+                                    <input type = "hidden" name="modificawarrior" value="<%= result7.NomeGuerriero %>">
+                                  </td>
+                                  <td><%= result7.Abilità %></td>
+                                  <td><%= result7.Stato %></td>
+                                  <td><%= insu %></td>
+                                  <td><%= result7.Prezzo %></td>
+                                  <td><%= dateI %></td>
+                                  <td><%= dateF%></td>
+                                  <td>
+                                    <!-- <input type = "text" name = "daterangeM" value = "07/06/2021 - 10/06/2021" id = "oggetto"/> -->
+                                    <input type="date" class="data_maggiore" name="dataidI">
+                                    <input type="date" class="c2" name="dataidF">
+                                    <button type="submit" form="form_NF" class="btn btn-secondary" value="<%= i %>" name="btnid2">Modifica</button>
+                                  </td>
+                                  <td>
+                                    <button type="submit" form="form_NF" class="btn btn-secondary" value="<%= i %>" name="btnid3">Elimina</button>
+                                  </td>
+                                </tr>
+                                <%
+                                i++; })
+                              } else{ %>
+                                <p>Non sono presenti noleggi futuri al momento</p>
+                                <% } %>
+                              </form>
+                            </tbody>
+                          </table>
+                        </div>
+                      </section>
+                    </div>
+                    <!----------------------------------------------------------------------------------------------------------------->
+                    <!-------------------------------------TABELLA STORICO PRENOTAZIONI------------------------------------------------->
+                    <!----------------------------------------------------------------------------------------------------------------->
+                    <div class="container-fluid py-3" >
+                      <section id="storiconoleggi">
+                        <h2 class="titleTable">STORICO NOLEGGI</h2> <input type="text" id="myInputStoricoNoleggi" onkeyup="myFunction4()" placeholder="Cerca per nome..."> </div>
+                        <div class="table-responsive">
+                          <table class="table" id="tableStoricoNoleggi">
+                            <thead>
+                              <tr>
+                                <th scope="col">NomeGuerriero</th>
+                                <th scope="col">Assicurazione</th>
+                                <th scope="col">Prezzo</th>
+                                <th scope="col">Fattura</th>
+                                <th scope="col">DataInizio</th>
+                                <th scope="col">DataFine</th>
+                                <th scope="col">DataRestituzione</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <form id="form_fattura" action="fattura" method="post">
+                                <%
+                                if(rows8.length!=0){
+                                var i=0;
+                                rows8.forEach(function(result8){
+                                  var dI = String(result8.DataInizio);
+                                  var dateI = dI.substring(3,15);
+                                  var dF = String(result8.DataFine);
+                                  var dateF = dF.substring(3,15);
+                                  var dR = String(result8.DataRestituzione);
+                                  var dataR = dR.substring(3,15);
+                                  var insu = result8.Insurance;
+                                  if (insu=1) {
+                                    insu="Sì";
+                                  } else {
+                                    insu="No";
+                                  }
+                                  %>
+                                  <tr>
+                                    <td><%= result8.NomeGuerriero%></td>
+                                    <td><%= insu %></td>
+                                    <td><%= result8.Prezzo %></td>
+                                    <td>
+                                      <input type="hidden" name="codice_fattura" value="<%= result8.Codice %>">
+                                      <button type="submit" form="form_fattura" class="btn btn-secondary" value="<%= i %>" name="button_fattura">Vedi fattura</button>
+                                    </td>
+                                    <td><%= dateI %></td>
+                                    <td><%= dateF%></td>
+                                    <td><%= dataR%></td>
+                                  </tr>
+                                  <%
+                                  i++; })
+                                } else{ %>
+                                  <p>Non ci sono noleggi avvenuti nel passato</p>
+                                  <% } %>
+                                </form>
+                              </tbody>
+                            </table>
+                          </div>
+                        </section>
+                      </div>
+                      <!----------------------------------------------------------------------------------------------------------------->
+                      <!-------------------------------------TABELLA UTENTI------------------------------------------------->
+                      <!----------------------------------------------------------------------------------------------------------------->
+                      <div class="container py-3"><div class="table-responsive" id="tableUtenti">
+                        <h2 class="titleTable">TABELLA UTENTI</h2> <input type="text" id="myInputUtenti" onkeyup="myFunction5()" placeholder="Cerca per nome...">
+                        <table class="table" id="table1Utenti">
+                          <thead>
+                            <tr>
+                              <th scope="col">Username</th>
+                              <th scope="col">Nome</th>
+                              <th scope="col">Città</th>
+                              <th scope="col">NrPrenotazioni</th>
+                              <th scope="col">Stato account</th>
+                              <th scope="col">modifyColumn</th>
+                              <th scope="col">removeColumn</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <form action="edit_users" id="formedit" method="post">
+                              <%
+                              if(rows5.length!=0){
+                              var i=0;
+                              rows5.forEach(function(result5){
+
+                                if (result5.Tipo!='Admin') {
+                                  %>
+                                  <tr>
+                                    <td><%= result5.Username%></td>
+                                    <td>
+                                      <input type="text" name="editname" placeholder="<%= result5.Nome%>">
+                                    </td>
+                                    <td>
+                                      <input type="text" name="editcity" placeholder="<%= result5.Città %>">
+                                    </td>
+                                    <td><%= result5.NrPrenotazioni%></td>
+                                    <td>
+                                      <select name="editaccount">
+                                        <option disabled selected><%= result5.StatoAccount %></option>
+                                        <option value="Attivo">Attivo</option>
+                                        <option value="Non attivo">Non attivo</option>
+                                      </select>
+                                    </td>
+                                    <td>
+                                      <input type="hidden" name="userid" value="<%= result5.Username %>">
+                                      <button type="submit" form="formedit" name="editid" class="btn btn-secondary" value="<%= i %>">Modifica</button>
+                                    </td>
+                                    <td>
+                                      <button type="submit" form="formedit" name="deleteid" class="btn btn-secondary" value="<%= i %>">Elimina</button>
+                                    </td>
+                                  </tr>
+                                  <%
+                                  i++;
+                                }
+                              })
+                            } else{ %>
+                              <p>Errore</p>
+                               <% } %>
+                              </form>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <!-- Footer -->
+                      <footer class=" text-center ">
+                        <!-- Grid container -->
+                        <div class="container p-4">
+                          <!-- Section: Social media -->
+                          <section class="mb-4">
+                            <!-- Facebook -->
+                            <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
+                            <!-- Twitter -->
+                            <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee" href="#!" role="button"><i class="fab fa-twitter"></i></a>
+                            <!-- Google -->
+                            <a class="btn btn-primary btn-floating m-1" style="background-color: #dd4b39" href="#!" role="button"><i class="fab fa-google"></i></a>
+                            <!-- Instagram -->
+                            <a class="btn btn-primary btn-floating m-1" style="background-color: #ac2bac" href="#!" role="button"><i class="fab fa-instagram"></i></a>
+                            <!-- Linkedin -->
+                            <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+                            <!-- Github -->
+                            <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="#!" role="button"><i class="fab fa-github"></i></a>
+                          </section>
+                          <!-- Section: Social media -->
+                          <!-- Section: Text -->
+                          <section class="mb-4">
+                            <p>L'assicurazione costa il 10% del totale e permette di evitare sanzioni qualora il guerriero sia restituito con dei danni fisici.</p>
+                            <p>Nel caso in cui il guerrero sia liberato con dei giorni di ritardo rispetto alla prenotazione verranno addebitati i costi dei giorni aggiuntivi e un 30% al giorno.</p>
+                          </section>
+                          <!-- Section: Text -->
+                        </div>
+                        <!-- Grid container -->
+                        <!-- Copyright -->
+                        <div class="text-center p-3" style="background-color:#74B3CE" id="lastFooter">
+                          © 2020 Copyright:
+                          <a class="text-dark" href="https://mdbootstrap.com/">RentalSpartani.com</a>
+                        </div>
+                        <!-- Copyright -->
+                      </footer>
+                      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+                      <script src="http://localhost:3000/"></script>
+                    </body>
+
+
+<script type="text/javascript">
+      var dt = new Date();
+      var giorno = dt.getDate();
+      var mese = dt.getMonth() + 1;
+      var anno = dt.getFullYear();
+      var oggi = 0;
+      if(giorno < 10){
+        giorno = "0" + giorno;
+      }
+      if(mese < 10){
+        mese = "0" + mese;
+      }
+
+    var oggi = anno + "-" + mese + "-" + giorno;
+
+    function c1(){
+       var array1 = document.getElementsByClassName('data_minore');
+       var array2 = document.getElementsByClassName('c1');
+       var arrayButton = document.getElementsByName('btnid2');
+       for(var i = 0; i < array1.length; i++){
+         let calendario1 = array1[i];
+         let calendario2 = array2[i];
+         let y = arrayButton[i];
+
+         calendario1.onchange = function(){
+           var valore1 = calendario1.value;
+           var valore2 = calendario2.value;
+           if(valore1 > oggi || valore2 < oggi || valore1 > valore2){
+             y.disabled = true;
+           } else {
+             y.disabled = false;
+           }
+         }
+         calendario2.onchange = function(){
+           var valore1 = calendario1.value;
+           var valore2 = calendario2.value;
+           if(valore1 > oggi || valore2 < oggi || valore1 > valore2){
+             y.disabled = true;
+           } else {
+             y.disabled = false;
+           }
+         }
+       }
+     }
+
+     c1();
+
+     function c2(){
+        var array1 = document.getElementsByClassName('data_maggiore');
+        var array2 = document.getElementsByClassName('c2');
+        var arrayButton = document.getElementsByName('btnid2');
+        var array3 = document.getElementsByClassName('data_minore');
+
+        for(var i = 0; i < array1.length; i++){
+          let calendario1 = array1[i];
+          let calendario2 = array2[i];
+          let y = arrayButton[i + array3.length];
+
+          calendario1.onchange = function(){
+            var valore1 = calendario1.value;
+            var valore2 = calendario2.value;
+            if(valore1 < oggi || valore2 < oggi || valore1 > valore2){
+              y.disabled = true;
+            } else {
+              y.disabled = false;
+            }
+          }
+          calendario2.onchange = function(){
+            var valore1 = calendario1.value;
+            var valore2 = calendario2.value;
+            if(valore1 < oggi || valore2 < oggi || valore1 > valore2){
+              y.disabled = true;
+            } else {
+              y.disabled = false;
+            }
+          }
+        }
+      }
+
+      c2();
+
+
+      function funzione30(){
+         var array1 = document.getElementsByName('btnid2');
+         for(var j = 0; j < array1.length; j++){
+         array1[j].disabled = true;
+         }
+      }
+</script>
+</html>

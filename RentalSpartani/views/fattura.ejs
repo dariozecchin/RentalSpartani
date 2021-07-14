@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FATTURA</title>
+    <link rel="stylesheet" type="text/css"  href="/css/styleUI.css">
+    <link rel="stylesheet" type="text/css"  href="/css/footer.css">
+    <link rel="stylesheet" href="/css/boot/bootstrap.css">
+    <script src = "/javascripts/N1.js" language = "javascript"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/css/pdf.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+    <script src="/javascripts/pdf.js"></script>
+    
+    <link rel="stylesheet" type="text/css"  href="/css/N1.css">
+    <link href = "/css/contatti.css" rel = "stylesheet">
+    <script src = "/javascripts/N1.js" language = "javascript"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!--- JS FIle -->
+    <script src="/javascripts/uidev.js"></script>
+    <style>
+      #containerResult{
+        padding: 2rem 2rem;
+        margin: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid" id="conteinerMenu">
+      <nav class="navbar navbar-expand-lg navbar-light transparent">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="http://localhost:3000/">RentalSpartani.com</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-trigger="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="offcanvas-header mt-3">
+              <button type="button" class="btn-close float-left"> <i class="fas fa-times"></i></button>
+              <h5 class="text-white py-2" style="text-align:left">Menu</h5>
+            </div>
+            <ul class="navbar-nav">
+              <% if(sessionVar.loggedin){ %>
+                <li class="nav-item">
+                  <a class="nav-link"   <% if(sessionVar.accountType=="Admin"){ %> href="/users/<%=sessionVar.username%>" <% }else{%>  href="/users/<%=sessionVar.username%>"  <%}%>  >Profilo</a>
+                </li>
+                <% } %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/statistiche/">Statistiche</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../contatti"><span class="indicator"><span class="material-icons" id="matIcon">call
+                </span>Contatti</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="login"<% if(!sessionVar.loggedin){ %> onclick = "controllo()" <% }else{%>   onclick = "logOut()" <%   } %>   ><span class="indicator" id="indicatorLogin"><i class="fas fa-user-circle"></i> <span class="textLogin">
+                  <% if(sessionVar.loggedin){ %>
+                    <%=   sessionVar.username; %>
+                    <% }else { %>
+                      Accedi <% } %>
+                     </span></span></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+          </div>
+          <div class="container mx-auto p-5">
+            <div class="row">
+              <div class="col-lg-5"></div>
+              <div class="col-lg-2">
+                <button class="btn" id="download">Download pdf</button>
+              </div>
+              <div class="col-lg-5"></div>
+            </div>
+          </div>
+          <%
+          rows1.forEach(function(result1){
+            rows2.forEach(function(result2){
+
+            var dIni = String(result2.DataInizio);
+            var dI = dIni.substring(3,15);
+            var dFine = String(result2.DataFine);
+            var dF = dFine.substring(3,15);
+            var dEmi = String(result1.DataEmissione);
+            var dE = dEmi.substring(3,15);
+            var insu = result1.Insurance;
+            if (insu=1) {
+              insu="Sì";
+            } else {
+              insu="No";
+            }
+            %>
+            <div class="container">
+              <div class="card" id="invoice">
+                <div class="card-header bg-transparent header-elements-inline">
+                  <h6 class="card-title text-primary">RentalSpartani.com</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="mb-4 pull-left">
+                        <ul class="list list-unstyled mb-0 text-left">
+                          <li>40123 Viale Quirico Filopanti</li>
+                          <li>Bologna city</li>
+                          <li>+05 123456 </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="mb-4 ">
+                        <div class="text-sm-right">
+                          <h4 class="invoice-color mb-2 mt-md-2">Invoice #<%= result1.Codice %></h4>
+                          <ul class="list list-unstyled mb-0">
+                            <li>Date: <span class="font-weight-semibold"><%= dE %> </span></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-lg">
+                      <thead>
+                        <tr>
+                          <th>To</th>
+                          <th>City</th>
+                          <th>Description</th>
+                          <th>Date</th>
+                          <th>Insurance</th>
+                          <th>Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td><%= result2.Nome %></td>
+                          <td><%= result2.Città %></td>
+                          <td>
+                            <h6 class="mb-0">Rent of warrior: <%= result2.NomeGuerriero %></h6> <span class="text-muted"></span>
+                          </td>
+                          <td><%= dI %> - <%= dF %></td>
+                          <td><%= insu %></td>
+                          <td><span class="font-weight-semibold"><%= result1.Totale %></span></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="card-body">
+                    <div class="d-md-flex flex-md-wrap">
+                      <div class="pt-2 mb-3 wmin-md-400 ml-auto">
+                        <h6 class="mb-3 text-left">Total due</h6>
+                        <div class="table-responsive">
+                          <table class="table">
+                            <tbody>
+                              <tr>
+                                  <th class="text-left">Subtotal:</th>
+                                  <td class="text-right"><%= result1.Base %> </td>
+                              </tr>
+                              <tr>
+                                  <th class="text-left">Sconto: <span class="font-weight-normal"></span></th>
+                                  <td class="text-right">- <%= result1.Sconto %></td>
+                              </tr>
+                              <tr>
+                                  <th class="text-left">Penali: <span class="font-weight-normal"></span></th>
+                                  <td class="text-right"><%= result1.Penale %></td>
+                              </tr>
+                              <tr>
+                                  <th class="text-left">Total:</th>
+                                  <td class="text-right text-primary">
+                                      <h5 class="font-weight-semibold"><%= result1.Totale %></h5>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- bottone -->
+      <div class="card-footer"> 
+        <span class="text-muted">        
+          L'assicurazione costa il 10% del totale e permette di evitare sanzioni qualora il guerriero sia restituito con dei danni fisici.
+          Nel caso in cui il guerrero sia liberato con dei giorni di ritardo rispetto alla prenotazione verranno addebitati i costi dei giorni aggiuntivi e un 30% al giorno.
+        </span>
+      </div>
+    </div>
+  </div>
+  <% });
+}); %>
+</div>
+<div class="btn_div"  style="text-align: center;">
+  <button class="btn" onclick="document.location='<%= sessionVar.username %>'">Indietro</button>
+</div>
+<!-- Footer -->
+<footer class=" text-center ">
+  <!-- Grid container -->
+  <div class="container p-4" id="footerDiv">
+    <!-- Section: Social media -->
+    <section class="mb-4">
+      <!-- Facebook -->
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
+      <!-- Twitter -->
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee" href="#!" role="button"><i class="fab fa-twitter"></i></a>
+      <!-- Google -->
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #dd4b39" href="#!" role="button"><i class="fab fa-google"></i></a>
+      <!-- Instagram -->
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #ac2bac" href="#!" role="button"><i class="fab fa-instagram"></i></a>
+      <!-- Linkedin -->
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+      <!-- Github -->
+      <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="#!" role="button"><i class="fab fa-github"></i></a>
+    </section>
+    <section class="mb-4">
+      <p>
+        <p>L'assicurazione costa il 10% del totale e permette di evitare sanzioni qualora il guerriero sia restituito con dei danni fisici.</p>
+        <p>Nel caso in cui il guerrero sia liberato con dei giorni di ritardo rispetto alla prenotazione verranno addebitati i costi dei giorni aggiuntivi e un 30% al giorno.</p>
+      </p>
+    </section>
+  </div>
+  <div class="text-center p-3" style="background-color:#74B3CE" id="lastFooter">
+    © 2020 Copyright:
+    <a class="text-dark" href="http://localhost:3000/">RentalSpartani.com</a>
+  </div>
+</footer>
+<script src="/javascripts/js/bootstrap.js"></script>
+</body>
+</html>

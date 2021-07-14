@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOTIFY</title>
+
+      <link rel="stylesheet" type="text/css"  href="/css/styleUI.css">
+      <!-- bootstrap  css --->
+      <link rel="stylesheet" href="/css/boot/bootstrap.css">
+      <!-- script LOGIN -->
+      <script src = "/javascripts/N1.js" language = "javascript"></script>
+      <!--- ICONS GOOGLE -->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+      <!--- Icons fontAwesome --->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+      <!--- JS FIle -->
+      <script src="/javascripts/uidev.js"></script>
+
+      <style>
+      footer {
+        margin-top: 15rem;
+      }
+      </style>
+
+    </head>
+    <body>
+      <div class="container-fluid" id="conteinerMenu">
+        <nav class="navbar navbar-expand-lg navbar-light transparent">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="http://localhost:3000/">RentalSpartani.com</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-trigger="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <div class="offcanvas-header mt-3">
+                <button type="button" class="btn-close float-left"> <i class="fas fa-times"></i></button>
+                <h5 class="text-white py-2" style="text-align:left">Menu</h5>
+              </div>
+              <ul class="navbar-nav">
+                <% if(sessionVar.loggedin){ %>
+                  <li class="nav-item">
+                    <a class="nav-link"   <% if(sessionVar.accountType=="Admin"){ %> href="/users/<%=sessionVar.username%>" <% }else{%>  href="/users/<%=sessionVar.username%>"  <%}%>  >Profilo</a>
+                  </li>
+                  <% } %>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/statistiche/">Statistiche
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="../contatti"><span class="indicator"><span class="material-icons" id="matIcon">call
+                    </span>Contatti</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#" id="login"<% if(!sessionVar.loggedin){ %> onclick = "controllo()" <% }else{%>   onclick = "logOut()" <%   } %>   ><span class="indicator" id="indicatorLogin"><i class="fas fa-user-circle"></i> <span class="textLogin">
+                      <% if(sessionVar.loggedin){ %>
+                        <%=   sessionVar.username; %>
+                        <% }else { %>
+                          Accedi <% } %>
+                        </span></span></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+            <div class="container p-4 my-4 mx-auto" id="containerResult">
+              <div class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                  <%
+                  rows.forEach(function(arrayNot){
+                    %>
+                    <div class="alert alert-info m-1" style="text-align: center; "><%= arrayNot.frase1 %></div>
+                    <div class="alert alert-warning p-2 my-2" role="alert" style="text-align: center; "><%= arrayNot.frase2 %></div>
+                    <div class="btn_div"  style="text-align: center;">
+                      <button class="btn" onclick="document.location='<%= arrayNot.id %>'">Indietro</button>
+                    </div>
+                    <%
+                  }); %>
+                </div>
+                <div class="col-lg-3"></div>
+              </div>
+            </div>
+            <!-- Footer -->
+            <footer class=" text-center ">
+              <!-- Grid container -->
+              <div class="container p-4" id="footerDiv">
+                <!-- Section: Social media -->
+                <section class="mb-4">
+                  <!-- Facebook -->
+                  <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
+                  <!-- Twitter -->
+                  <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee" href="#!" role="button"><i class="fab fa-twitter"></i></a>
+                  <!-- Google -->
+                  <a class="btn btn-primary btn-floating m-1" style="background-color: #dd4b39" href="#!" role="button"><i class="fab fa-google"></i></a>
+                  <!-- Instagram -->
+                  <a class="btn btn-primary btn-floating m-1" style="background-color: #ac2bac" href="#!" role="button"><i class="fab fa-instagram"></i></a>
+                  <!-- Linkedin -->
+                  <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+                  <!-- Github -->
+                  <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="#!" role="button"><i class="fab fa-github"></i></a>
+                </section>
+                <!-- Section: Text -->
+                <section class="mb-4">
+                  <p>L'assicurazione costa il 10% del totale e permette di evitare sanzioni qualora il guerriero sia restituito con dei danni fisici.</p>
+                  <p>Nel caso in cui il guerrero sia liberato con dei giorni di ritardo rispetto alla prenotazione verranno addebitati i costi dei giorni aggiuntivi e un 30% al giorno.</p>
+                </section>
+                <!-- Section: Text -->
+              </div>
+              <div class="text-center p-3" style="background-color:#74B3CE" id="lastFooter">
+                © 2020 Copyright:
+                <a class="text-dark" href="http://localhost:3000/">RentalSpartani.com</a>
+              </div>
+            </footer>
+          </body>
+          </html>
