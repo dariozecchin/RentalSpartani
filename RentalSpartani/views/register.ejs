@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GuerrieriBackOffice</title>
+
+
+  <link rel="stylesheet" type="text/css"  href="/css/styleUI.css">
+  <link rel="stylesheet" type="text/css"  href="/css/footer.css">
+  <!--- css FIle for login -->
+  <link href = "/css/N1.css" rel = "stylesheet" text = "text/css">
+  <!-- bootstrap  css --->
+  <link rel="stylesheet" href="/css/boot/bootstrap.css">
+  <!-- script LOGIN -->
+  <script src = "/javascripts/N1.js" language = "javascript"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+  <!--- Icons fontAwesome --->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+  <!--- JS FIle -->
+  <script src="/javascripts/uidev.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+  <!--- NAVBAR --->
+  <div class="container-fluid" id="conteinerMenu">
+    <nav class="navbar navbar-expand-lg navbar-light transparent">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="http://localhost:3000/">RentalSpartani.com</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-trigger="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="offcanvas-header mt-3">
+            <button type="button" class="btn-close float-left"> </button>
+            <h5 class="text-white py-2" style="text-align:left">Menu</h5>
+          </div>
+          <ul class="navbar-nav">
+            <% if(sessionVar.loggedin){ %>
+              <li class="nav-item">
+                <a class="nav-link"   <%if(sessionVar.accountType=="Admin"){ %> href="/users/<%=sessionVar.username%>" <% }else{%>  href="/users/<%=sessionVar.username%>"  <%}%>  >Profilo</a>
+              </li>
+              <% } %>
+              <li class="nav-item">
+                <a class="nav-link" href="http://localhost:3000/statistiche/">Statistiche</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../contatti"><span class="indicator"><span class="material-icons" id="matIcon">call
+                  </span>Contatti</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#" id="login"<% if(!sessionVar.loggedin){ %> onclick = "openLogPop()" <% }else{%>   onclick = "logOutAdmin()" <%   } %>   ><span class="indicator" id="indicatorLogin"><i class="fas fa-user-circle"></i> <span class="textLogin">
+                    <% if(sessionVar.loggedin){ %>
+                      <%= sessionVar.username; %>
+                      <% }else { %>
+                        Accedi <% } %>
+                      </span></span></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+          </div>
+          <!--- Qua finisce  la search -->
+          <!--- Pop-up  code -->
+          <div class="popup">
+            <!--- Pop-up  code -->
+            <div class = "contenutoPop">
+              <form action="login" method="POST" id="formLogin">
+                <div class="rightCross">
+                  <img src = "/img/Croce.png" alt = "croceRossa" width = "20px" height = "20px" class = "close" onclick = "chiusuraLoginNoHome()">
+                </div>
+                <img src = "/img/User.png" alt = "ImmagineUser" id = "imgUser">
+                <input type="username" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="usernameHelp" placeholder="Enter username" required>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" required>
+                <div id="errorLogin" class="form-text text-muted"></div>
+                <div class="alert alert-danger" role="alert" id="errorLogin"  style="display: none; "></div>
+                <br>
+                <button type="submit" class="btn" id = "btnLogin">LOGIN</button>
+              </form>
+            </div>
+          </div>
+          <div class="popup2" id="pop2">
+            <!--- Pop-up  code -->
+            <div class = "contenutoPop2">
+              <form action="logout" method="POST" id="formLogOut">
+                <div class="titlePop">Sei sicuro di voler effetuare il log-out? </div>
+                <button type="submit" class="btn" id = "btnLogOut">Certo</button>
+                <button type="button" class="btn" onclick = "closePopUpAdmin()"> Indietro </button>
+              </form>
+            </div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-3"></div>
+              <div class="col-lg-6">
+                <div class="newUser p-4  mt-2">
+                  <form class="form_Reg" id="form_Register" action="register" method="post">
+                    <legend> Registrati: </legend>
+                    <small>Inserisci username:</small>
+                    <div class="input-group m-3 p-1">
+                      <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" name="username" required>
+                    </div>
+                    <small>Inserisci nome:</small>
+                    <div class="input-group m-3 p-1">
+                      <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1" name="name" required>
+                    </div>
+                    <small>Inserisci password:</small>
+                    <div class="input-group m-3 p-1">
+                      <input type="password" class="form-control" placeholder="*******" aria-label="Password" aria-describedby="basic-addon1" name="password" id="password" required>
+                    </div>
+                    <small>Conferma password:</small>
+                    <div class="input-group m-3 p-1">
+                      <input type="password" class="form-control" placeholder="*******" aria-label="Password2" aria-describedby="basic-addon1" name="password2" id="confirm_password" required>
+                    </div>
+                    <small>Inserisci Citta:</small>
+                    <div class="input-group m-3 p-1">
+                      <input type="text" class="form-control" placeholder="City" aria-label="Citta" aria-describedby="basic-addon1" name="city" required>
+                    </div>
+                    <div class="alertMessage" role="alert" id="message">
+                  </div>
+                  <div class="input-group m-3 p-1">
+                    <button type="submit" class="btn btn-primary" form = "form_Register" id="registerB">Registrati</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-lg-3"></div>
+          </div>
+        </div>
+        <!-- Footer -->
+        <footer class=" text-center ">
+          <!-- Grid container -->
+          <div class="container p-4" id="footerDiv">
+            <!-- Section: Social media -->
+            <section class="mb-4">
+              <!-- Facebook -->
+              <a class="btn btn-primary btn-floating m-1" style="background-color: #3b5998" href="#!" role="button"><i class="fab fa-facebook-f"></i></a>
+              <!-- Twitter -->
+              <a class="btn btn-primary btn-floating m-1" style="background-color: #55acee" href="#!" role="button"><i class="fab fa-twitter"></i></a>
+              <!-- Google -->
+              <a class="btn btn-primary btn-floating m-1" style="background-color: #dd4b39" href="#!" role="button"><i class="fab fa-google"></i></a>
+              <!-- Instagram -->
+              <a class="btn btn-primary btn-floating m-1" style="background-color: #ac2bac" href="#!" role="button"><i class="fab fa-instagram"></i></a>
+              <!-- Linkedin -->
+              <a class="btn btn-primary btn-floating m-1" style="background-color: #0082ca" href="#!" role="button"><i class="fab fa-linkedin-in"></i></a>
+              <!-- Github -->
+              <a class="btn btn-primary btn-floating m-1" style="background-color: #333333" href="#!" role="button"><i class="fab fa-github"></i></a>
+            </section>
+            <!-- Section: Text -->
+            <section class="mb-4">
+              <p>L'assicurazione costa il 10% del totale e permette di evitare sanzioni qualora il guerriero sia restituito con dei danni fisici.</p>
+              <p>Nel caso in cui il guerrero sia liberato con dei giorni di ritardo rispetto alla prenotazione verranno addebitati i costi dei giorni aggiuntivi e un 30% al giorno.</p>
+            </section>
+          </div>
+          <div class="text-center p-3" style="background-color:#74B3CE" id="lastFooter">
+            © 2020 Copyright:
+            <a class="text-dark" href="http://localhost:3000/">RentalSpartani.com</a>
+          </div>
+        </footer>
+        <script src="/javascripts/js/bootstrap.js"></script>
+      </body>
+<script>
+  $('#password, #confirm_password').on('keyup', function () {
+    if ($('#password').val() == $('#confirm_password').val()) {
+      $('#message').html(' Password Matching').css('color', 'green');
+      document.getElementById("registerB").disabled = false;
+
+    } else{
+      $('#message').html(' Password Not Matching').css('color', 'red');
+      document.getElementById("registerB").disabled = true; }
+  });
+</script>
+</html>
