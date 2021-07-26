@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+    /* definisco il font GOOGLE per tutta la pagina */
+
+}
+
+.hero{
+    width: 100%;
+}
+
+.row{
+    width: 90%;
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    /* con space-between = creo uno spazio tra l'immagine e la colonna che contiene le informazioni */
+    /* justify-content: space-between; */
+    /* center = lo spazio si riduce ed è minimo */
+    justify-content: center;
+}
+
+.col{
+    /* flex-basis: 45%; */
+    flex-basis: 70%;
+}
+/* questa è il contenitore dell'immagine e modificando height modifico altezza del box dell'img */
+.slider{
+    height: 70vh;
+    /* display: flex; */
+}
+
+p{
+    /* se aumento, aumenta lo spazio tra le descrizioni della parte destra */
+    margin-bottom: 20px;
+}
+
+.brand{
+    width: fit-content;
+    font-size: 20px;
+    font-weight: bold;
+    /* font-style: italic; */
+    text-transform: uppercase;
+}
+
+h2{
+    font-size: 60px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.rating{
+    display: flex;
+    height: 10px;
+}
+
+.rating .fa{
+    color:#fe980f;
+}
+
+.price{
+    color: #fe980f;
+    font-size: 26px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+button{
+    font-size: 15px;
+    outline: none;
+    border: 0;
+    background: #fe980f;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-radius: 40px;
+}
+
+button:hover{
+    background-color: aqua;
+    color:white;
+}
+
+/* coloro di nero il logo del carello dello shopping */
+.fa-shopping-cart{
+    color:black;
+}
+
+#descrizione{
+    font-size: 20px;
+    font-weight: bold;
+    font-style: italic;
+    color: aqua;
+}
+
+.contenitore{
+    padding: 40px;
+    margin: 10px;
+}
+
+#prenotazione{
+    text-align: center;
+}
+
+#linkPrenotazione{
+    text-decoration: none;
+}
+
+/* questo è il calendario per prenotare */
+#oggetto{
+    width: 300px;
+    text-align: center;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 30px;
+    background-color:  #fe980f;
+    cursor:pointer;
+}
+
+#oggetto:hover{
+    background-color: aqua;
+    color: white;
+}
+
+/* Scegli la data di noleggio */
+.contenitoreCalendario{
+    text-align: center;
+    color: #fe980f;
+}
+
+/* Vuoi avere l'assicurazione sul soldato che stai noleggiando? */
+.contenitoreAssicurazione{
+    text-align: center;
+    color: #fe980f;
+}
+
+.contenitoreButton{
+    text-align: center;
+}
+
+/* conferma la prenotazione */
+#btnConferma{
+    width: 320px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 60px;
+}
+
+/* checkbox */
+#TFassicurazione{
+    width: 21px;
+    height: 21px;
+    position: relative;
+    top: 5px;
+}
+
+/* img del guerriero */
+#imagebox{
+    width: 600px;
+    margin-left: 40px;
+    margin-right: 40px;
+    height: 100%;
+}
+
+#imagebox:hover{
+    border: 7px dashed aqua;
+}
+
+#prenotazione{
+    color: aqua;
+}
+
+/* IMPORTANTE = AGGIUNGERE landscape */
+/* per cambiare dimensione dell'img devo cambiare le dimensione della media query sotto, poichè vanno in conflitto */
+/* @media (orientation: landscape){
+    .contenitore{
+        background-color: white;
+        position: relative;
+        top: 350px;
+    }
+    .content{
+        position: relative;
+        top: 200px;
+    }
+
+    #imagebox{
+        position: relative;
+        top: 0px;
+    }
+} */
+
+/* Questa à la misura per il landscape */
+@media screen and (min-width: 900px) and (max-width: 1400px){
+    .contenitore{
+        background-color: white;
+        position: relative;
+        top: 350px;
+    }
+    .content{
+        position: relative;
+        top: 180px;
+    }
+
+    #imagebox{
+        height: 700px;
+        width: 600px;
+        object-fit: cover;
+        position: relative;
+        top: 0px;
+    }
+}
+
+@media (orientation: portrait){
+
+    body{
+        background-color:white;
+    }
+
+    /* applico display: flex, cosi da poter mettere tutti i dati del guerriero uno sotto l'altro, altrimenti starebbero
+    tutti dal lato dell'immagine */
+    .row{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    #imagebox{
+        width: 500px;
+        height: 600px;
+        object-fit: cover;
+        position: relative;
+        top: 250px;
+    }
+
+    .content{
+        position: relative;
+        top: 300px;
+        text-align: center;
+    }
+
+    .brand{
+        position: relative;
+        left: 170px;
+    }
+
+    .rating{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .contenitore{
+        position: relative;
+        top: 550px;
+    }
+
+    #prenotazione{
+        font-size: 50px;
+    }
+}

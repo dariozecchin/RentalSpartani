@@ -1,0 +1,21 @@
+/* For the star's review */
+
+@import url('https://fonts.googleapis.com/css2?family=Heebo&display=swap');
+
+
+.checked{
+  color: #ffc700;
+}
+
+.datadiv{
+  width: 250px ;
+  height: auto;
+}
+.fa-star{
+  color: #fcbe03;
+}
+
+
+.fa-angle-left{
+ 
+}
