@@ -17,7 +17,7 @@ ISTRUZIONI PER ESEGUIRE:
     Download o cloan il progetto nel link : https://github.com/AlessandroRossi98/RentalSpartani.git
     Importare il file "NoloDB.sql " nel server MySQL
     Aprire database.js e inserire le credenziali su cui si è salvato il Database
-    Installare i node_modules con npm install dal file package.json
+    Installare i node_modules con "npm install" nel path della cartella 
     Nel terminal nel path del progetto digita npm start.
     Digitare nel browser : "localhost:3000"
 
